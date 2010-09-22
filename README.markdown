@@ -8,7 +8,7 @@ Normal conditionals:
     if!(0) { puts 'true' }.
     else! { puts 'false' }
 
-#=> 'true'
+    #=> 'true'
 
 A Pythonic truthiness:
 ----------------------
@@ -19,7 +19,7 @@ A Pythonic truthiness:
     if!(0) { puts 'true' }.
     else! { puts 'false' }
 
-#=> false
+    #=> false
 
 A full example:
 ------------------------
@@ -34,3 +34,5 @@ A full example:
     else! {
         puts 'x is neither 4 nor 5'
     }
+
+    #=> "x is 5"
