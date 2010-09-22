@@ -2,7 +2,7 @@
 # MIT license
 
 def if!(condition, &block)
-  truth = CustomBoolean.truth_test.call(condition)
+  truth = CustomBoolean.truthy?(condition)
   block.call if truth
   CustomBoolean.new(truth)
 end
@@ -12,6 +12,10 @@ class CustomBoolean
 
   class << self
     attr_accessor :truth_test
+
+    def truthy?(condition)
+      self.truth_test.call(condition)
+    end
   end
 
   self.truth_test = proc { |expr| !!expr }
@@ -24,7 +28,7 @@ class CustomBoolean
     if self.truth_value
       CustomBoolean.new(true)
     else
-      truth = CustomBoolean.truth_test.call(condition)
+      truth = CustomBoolean.truthy?(condition)
       block.call if truth
       CustomBoolean.new(truth)
     end
