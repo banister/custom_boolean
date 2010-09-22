@@ -18,6 +18,7 @@ class CustomBoolean
     end
   end
 
+  # default truth test (same as Ruby's)
   self.truth_test = proc { |expr| !!expr }
   
   def initialize(truth_value)
