@@ -5,8 +5,12 @@ Cute hack to have if/else_if/else conditions with user-defined truthiness
 
 Normal conditionals:
 --------------------
-    if!(0) { puts 'true' }.
-    else! { puts 'false' }
+    if!(0) { 
+        puts 'true' 
+    }.
+    else! { 
+        puts 'false' 
+    }
 
     #=> 'true'
 
@@ -16,8 +20,12 @@ A Pythonic truthiness:
     # redefine truthiness with the `truth_test` method
     CustomBoolean.truth_test = proc { |b| b && b != 0 && b != [] }
 
-    if!(0) { puts 'true' }.
-    else! { puts 'false' }
+    if!(0) { 
+        puts 'true' 
+    }.
+    else! { 
+        puts 'false' 
+    }
 
     #=> false
 
