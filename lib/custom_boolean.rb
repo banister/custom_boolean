@@ -35,6 +35,10 @@ class CustomBoolean
     end
   end
 
+  alias_method :elsif!, :else_if!
+  alias_method :elif!, :else_if!
+  alias_method :elseif!, :else_if!
+  
   def else!(&block)
     block.call unless self.truth_value
   end
