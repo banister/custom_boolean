@@ -8,7 +8,7 @@ Normal conditionals:
     if!(0) { 
         puts 'true' 
     }.
-    else! { 
+    else { 
         puts 'false' 
     }
 
@@ -23,7 +23,7 @@ A Pythonic truthiness:
     if!(0) { 
         puts 'true' 
     }.
-    else! { 
+    else { 
         puts 'false' 
     }
 
@@ -36,10 +36,10 @@ A full example:
     if!(x == 4) {
         puts 'x is 4' 
     }.
-    else_if!(x == 5) {
+    else_if(x == 5) {
         puts 'x is 5'
     }.
-    else! {
+    else {
         puts 'x is neither 4 nor 5'
     }
 
