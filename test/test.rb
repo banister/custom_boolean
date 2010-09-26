@@ -4,71 +4,71 @@ require 'test/unit'
 
 class CustomBooleanTest < Test::Unit::TestCase
   def test_if_true
-    result = if!(5 == 5) { :is_equal }
+    result = if?(5 == 5) { :is_equal }
 
     assert_equal(true, result.truth_value)
   end
 
   def test_if_false
-    result = if!(5 == 6) { :is_equal }
+    result = if?(5 == 6) { :is_equal }
 
     assert_equal(false, result.truth_value)
   end
 
   def test_else_if_true
-    result = (if!(5 == 5) { :is_equal }.
-      else_if!(6 == 6) { :is_equal })
+    result = (if?(5 == 5) { :is_equal }.
+      else_if?(6 == 6) { :is_equal })
 
     assert_equal(true, result.truth_value)
   end
 
   def test_else_if_false
-    result = (if!(5 == 6) { :is_equal }.
-      else_if!(6 == 7) { :is_equal })
+    result = (if?(5 == 6) { :is_equal }.
+      else_if?(6 == 7) { :is_equal })
 
     assert_equal(false, result.truth_value)
   end
 
   def test_else_true
-    result = (if!(5 == 5) { :is_equal }.
-      else! { :is_equal })
+    result = (if?(5 == 5) { :is_equal }.
+      else? { :is_equal })
 
-    assert_equal(:is_equal, result.block_value)
+    assert_equal(:is_equal, result.value)
     assert_equal(:else_reached, result.truth_value)
   end
 
   def test_else_false
-    result = (if!(5 == 6) { :is_equal }.
-      else! { :is_equal })
+    result = (if?(5 == 6) { :is_equal }.
+      else? { :is_equal })
 
-    assert_equal(:is_equal, result.block_value)
+    assert_equal(:is_equal, result.value)
   end
 
   def test_else_if_else_false
-    result = if!(5 == 6) { :is_equal }.
-      else_if!(5 == 7) { :is_equal }.
-      else! { :is_equal }
+    result = if?(5 == 6) { :is_equal }.
+      else_if?(5 == 7) { :is_equal }.
+      else? { :is_equal }
   
-    assert_equal(:is_equal, result.block_value)
+    assert_equal(:is_equal, result.value)
     assert_equal(:else_reached, result.truth_value)
   end
 
   def test_else_if_true
-    result = if!(5 == 5) { :is_equal_if }.
-      else_if!(5 == 7) { :is_equal_else_if }.
-      else! { :is_equal }
+    result = if?(5 == 5) { :is_equal_if }.
+      else_if?(5 == 7) { :is_equal_else_if }.
+      else? { :is_equal }
   
-    assert_equal(:is_equal_if, result.block_value)
+    assert_equal(:is_equal_if, result.value)
   end
 
   def test_else
-    result = if!(5 == 0) { :is_equal }.
-  else! { :in_else }
+    result = if?(5 == 0) { :is_equal }.
+  else? { :in_else }
 
-    assert_equal(:in_else, result.block_value)
+    assert_equal(:in_else, result.value)
 
-    result = if!(5 == 5) { :is_equal }.
-  else! { :in_else }
+    result = if?(5 == 5) { :is_equal }.
+  else? { :in_else }
 
     assert_equal(:else_reached, result.truth_value)
   end
@@ -76,7 +76,7 @@ class CustomBooleanTest < Test::Unit::TestCase
   def test_custom_truth
     CustomBoolean.truth_test = proc { |b| b && b != 0 }
 
-    result = if!(0) { :is_equal }
+    result = if?(0) { :is_equal }
 
     assert_equal(false, result.truth_value)
 
@@ -87,10 +87,10 @@ class CustomBooleanTest < Test::Unit::TestCase
   def test_custom_truth_else
     CustomBoolean.truth_test = proc { |b| b && b != 0 }
 
-    result = if!(0) { :is_equal }.
-             else! { :in_else }
+    result = if?(0) { :is_equal }.
+             else? { :in_else }
 
-    assert_equal(:in_else, result.block_value)
+    assert_equal(:in_else, result.value)
 
     # reset truth test
     CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
@@ -100,14 +100,14 @@ class CustomBooleanTest < Test::Unit::TestCase
     CustomBoolean.truth_test = proc { |b| b && b != 0 }
 
     y = :blah
-    result = if!(1) {
-      if!(0) { }.
-      else_if!(1) {
+    result = if?(1) {
+      if?(0) { }.
+      else_if?(1) {
         y = :nested
       }
       
     }.
-    else_if!(1) {
+    else_if?(1) {
       y = :else_if
     }
 
@@ -116,79 +116,79 @@ class CustomBooleanTest < Test::Unit::TestCase
     CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
   end
 
-  def test_block_values
+  def test_values
     val = :outside_if
-    val = if!(true) {
+    val = if?(true) {
         :in_if
       }
-    assert_equal(:in_if, val.block_value)
+    assert_equal(:in_if, val.value)
 
-    val = if!(true) {
+    val = if?(true) {
       :in_if
     }.
-    elif!(true) {
+    elif?(true) {
       :in_elif
     }
 
-    assert_equal(:in_if, val.block_value)
+    assert_equal(:in_if, val.value)
   end
 
-  def test_block_values_elseif_chain
-    val = if!(true) {
+  def test_values_elseif_chain
+    val = if?(true) {
       :hello
     }.
-    elsif!(true) {
+    elsif?(true) {
     }.
-    else_if!(true) {
+    else_if?(true) {
     }
 
-    assert_equal(:hello, val.block_value)
+    assert_equal(:hello, val.value)
 
-    val = if!(false) {
+    val = if?(false) {
     }.
-    elsif!(true) {
+    elsif?(true) {
       :goodbye
     }.
-    else_if!(true) {
+    else_if?(true) {
     }
 
-    assert_equal(:goodbye, val.block_value)
+    assert_equal(:goodbye, val.value)
 
-    val = if!(false) {
+    val = if?(false) {
     }.
-    elsif!(false) {
+    elsif?(false) {
     }.
-    else_if!(true) {
+    else_if?(true) {
       :tiger
     }
 
-    assert_equal(:tiger, val.block_value)    
+    assert_equal(:tiger, val.value)    
   end
 
   def test_conditional_after_else_exception
 
     assert_raises(CustomBoolean::InvalidConditional) do
-      if!(true) {}.
-      else! {}.
-      else! {}
+      if?(true) {}.
+      else? {}.
+      else? {}
     end
 
     assert_raises(CustomBoolean::InvalidConditional) do
-      if!(false) {}.
-      else_if!(true) {}.
-    else! {}.
-      else_if!(false) {}
+      if?(false) {}.
+      else_if?(true) {}.
+    else? {}.
+      else_if?(false) {}
     end
   end
 
   def test_else_if_aliases
     assert_nothing_thrown do
-      if!(false) {}.
-      else_if!(false) {}.
-      elseif!(false) {}.
-      elif!(false) {}.
-      elsif!(true) {}.
-      else! {}
+      if?(false) {}.
+      else_if?(false) {}.
+      elseif?(false) {}.
+      elif?(false) {}.
+      elsif?(true) {}.
+      else? {}
     end
   end
 
@@ -196,22 +196,22 @@ class CustomBooleanTest < Test::Unit::TestCase
     CustomBoolean.truth_test = CustomBoolean::PERL_TRUTH
 
     ["0", "", 0].each do |v|
-      val = if!(v) {
+      val = if?(v) {
         true
       }.
-      else! {
+      else? {
         false
       }
-      assert_equal(false, val.block_value)
+      assert_equal(false, val.value)
     end
 
-    val = if!("hello") {
+    val = if?("hello") {
       true
     }.
-    else! {
+    else? {
       false
     }
-    assert_equal(true, val.block_value)
+    assert_equal(true, val.value)
 
     CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
   end
@@ -220,22 +220,22 @@ class CustomBooleanTest < Test::Unit::TestCase
     CustomBoolean.truth_test = CustomBoolean::PYTHON_TRUTH
 
     [{}, [], "", 0].each do |v|
-      val = if!(v) {
+      val = if?(v) {
         true
       }.
-      else! {
+      else? {
         false
       }
-      assert_equal(false, val.block_value)
+      assert_equal(false, val.value)
     end
 
-    val = if!("hello") {
+    val = if?("hello") {
       true
     }.
-    else! {
+    else? {
       false
     }
-    assert_equal(true, val.block_value)
+    assert_equal(true, val.value)
 
     CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
   end
@@ -244,28 +244,28 @@ class CustomBooleanTest < Test::Unit::TestCase
     CustomBoolean.truth_test = CustomBoolean::STRICT_TRUTH
 
     assert_nothing_thrown do
-      val = if!(true) {
+      val = if?(true) {
         true
       }.
-      else! {
+      else? {
         false
       }
 
-      assert_equal(true, val.block_value)
+      assert_equal(true, val.value)
 
-      val = if!(false) {
+      val = if?(false) {
         true
       }.
-      else! {
+      else? {
         false
       }
 
-      assert_equal(false, val.block_value)
+      assert_equal(false, val.value)
     end
 
     [nil, 0, "", "hello", [], {}].each do |v|
       assert_raises(RuntimeError) do
-        if!(v) {}
+        if?(v) {}
       end
     end
     CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
@@ -275,45 +275,45 @@ class CustomBooleanTest < Test::Unit::TestCase
     CustomBoolean.truth_test = CustomBoolean::C_TRUTH
     
     [nil, false, 0].each do |v|
-      val = if!(v) {
+      val = if?(v) {
         true
       }.
-      else! {
+      else? {
         false
       }
-      assert_equal(false, val.block_value)
+      assert_equal(false, val.value)
     end
 
    [true, "hello", []].each do |v|
-    val = if!(v) {
+    val = if?(v) {
         true
       }.
-      else! {
+      else? {
         false
       }
-      assert_equal(true, val.block_value)
+      assert_equal(true, val.value)
     end
   end
 
   def test_ruby_truth
     [nil, false].each do |v|
-      val = if!(v) {
+      val = if?(v) {
         true
       }.
-      else! {
+      else? {
         false
       }
-      assert_equal(false, val.block_value)
+      assert_equal(false, val.value)
     end
 
    [true, "hello", []].each do |v|
-    val = if!(v) {
+    val = if?(v) {
         true
       }.
-      else! {
+      else? {
         false
       }
-      assert_equal(true, val.block_value)
+      assert_equal(true, val.value)
     end
     CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
   end
