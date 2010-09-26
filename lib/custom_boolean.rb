@@ -1,11 +1,16 @@
 # CustomBoolean by John Mair (banisterfiend)
 # MIT license
 
-def if?(condition, &block)
+def if_(condition, &block)
   truth = !!CustomBoolean.truthy?(condition)
   bvalue = block.call if truth
   CustomBoolean.new(truth, bvalue)
 end
+
+# bunch of aliases for if_
+alias if! if_
+alias _if if_
+alias if? if_
 
 class CustomBoolean
   attr_accessor :truth_value, :value
@@ -36,11 +41,10 @@ class CustomBoolean
     self.value = block_value
   end
   
-  def else_if?(condition, &block)
+  def else_if(condition, &block)
     raise InvalidConditional, "No further conditionals allowed after an else." if self.truth_value == :else_reached
 
     if self.truth_value
-
       CustomBoolean.new(true, self.value)
     else
       truth = !!CustomBoolean.truthy?(condition)
@@ -49,12 +53,14 @@ class CustomBoolean
     end
   end
 
-  # a bunch of aliases for else if
-  alias_method :elsif?, :else_if?
-  alias_method :elif?, :else_if?
-  alias_method :elseif?, :else_if?
+  # a bunch of aliases for else_if
+  alias else_if? else_if
+  alias else_if! else_if
+  alias elsif else_if
+  alias elsif? else_if
+  alias elsif! else_if
   
-  def else?(&block)
+  def else(&block)
     raise InvalidConditional, "No further conditionals allowed after an else." if self.truth_value == :else_reached
 
     if self.truth_value
@@ -64,5 +70,9 @@ class CustomBoolean
       CustomBoolean.new(:else_reached, bvalue)
     end
   end
+
+  # a bunch of aliases for else 
+  alias else? else
+  alias else! else
 end
 

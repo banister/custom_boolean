@@ -126,14 +126,14 @@ class CustomBooleanTest < Test::Unit::TestCase
     val = if?(true) {
       :in_if
     }.
-    elif?(true) {
-      :in_elif
+    else_if?(true) {
+      :in_
     }
 
     assert_equal(:in_if, val.value)
   end
 
-  def test_values_elseif_chain
+  def test_values_else_if_chain
     val = if?(true) {
       :hello
     }.
@@ -184,11 +184,13 @@ class CustomBooleanTest < Test::Unit::TestCase
   def test_else_if_aliases
     assert_nothing_thrown do
       if?(false) {}.
+      else_if(false) {}.
+      else_if!(false) {}.
       else_if?(false) {}.
-      elseif?(false) {}.
-      elif?(false) {}.
       elsif?(true) {}.
-      else? {}
+      elsif!(true) {}.
+      elsif(true) {}.
+      else {}
     end
   end
 
