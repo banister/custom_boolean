@@ -1,6 +1,26 @@
 # CustomBoolean by John Mair (banisterfiend)
 # MIT license
 
+module CustomBooleanOperators
+  def &(other)
+    CustomBoolean.truthy?(self) && CustomBoolean.truthy?(other)
+  end
+  alias and &
+  
+  def |(other)
+    CustomBoolean.truthy?(self) || CustomBoolean.truthy?(other)
+  end
+  alias or |
+end
+
+true.extend(CustomBooleanOperators)
+false.extend(CustomBooleanOperators)
+Object.send(:include, CustomBooleanOperators)
+
+def negate(other)
+  !CustomBoolean.truthy?(self)
+end
+  
 def if_(condition, &block)
   truth = !!CustomBoolean.truthy?(condition)
   bvalue = block.call if truth
@@ -39,6 +59,10 @@ class CustomBoolean
   def initialize(truth_value, block_value)
     self.truth_value = truth_value
     self.value = block_value
+  end
+
+  def +@
+    self.value
   end
   
   def else_if(condition, &block)
