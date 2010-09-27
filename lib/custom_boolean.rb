@@ -1,26 +1,32 @@
 # CustomBoolean by John Mair (banisterfiend)
 # MIT license
 
-module CustomBooleanOperators
-  def &(other)
-    CustomBoolean.truthy?(self) && CustomBoolean.truthy?(other)
+
+direc = File.dirname(__FILE__)
+require "#{direc}/custom_boolean/version"
+
+class CustomBoolean
+  module Operators
+    def &(other)
+      CustomBoolean.truthy?(self) && CustomBoolean.truthy?(other)
+    end
+    alias_method :and, :"&"
+    
+    def |(other)
+      CustomBoolean.truthy?(self) || CustomBoolean.truthy?(other)
+    end
+    alias_method :or, :"|"
   end
-  alias and &
-  
-  def |(other)
-    CustomBoolean.truthy?(self) || CustomBoolean.truthy?(other)
-  end
-  alias or |
 end
 
-true.extend(CustomBooleanOperators)
-false.extend(CustomBooleanOperators)
-Object.send(:include, CustomBooleanOperators)
+true.extend(CustomBoolean::Operators)
+false.extend(CustomBoolean::Operators)
+Object.send(:include, CustomBoolean::Operators)
 
-def negate(other)
-  !CustomBoolean.truthy?(self)
+def negate(expr)
+  !CustomBoolean.truthy?(expr)
 end
-  
+
 def if_(condition, &block)
   truth = !!CustomBoolean.truthy?(condition)
   bvalue = block.call if truth
@@ -52,7 +58,7 @@ class CustomBoolean
   STRICT_TRUTH = proc { |expr| raise "Expression must be strictly true or false." if expr != true && expr != false; expr }
   PERL_TRUTH = proc { |expr| expr && expr != 0 && expr != "" && expr != "0" }
   C_TRUTH = proc { |expr| expr && expr != 0 }
-    
+  
   # default truth test is Ruby's
   self.truth_test = RUBY_TRUTH
   

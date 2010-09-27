@@ -319,6 +319,104 @@ class CustomBooleanTest < Test::Unit::TestCase
     end
     CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
   end
+
+  def test_perl_truth_operators
+    CustomBoolean.truth_test = CustomBoolean::PERL_TRUTH
+
+    truthy_value = "0"
+    
+    [:and, :or].each do |o|
+      v = +if?(truthy_value.send(o, true)) {
+        true
+      }.
+      else! {
+        false
+      }
+
+      assert_equal(true, v) if o == :or
+        assert_equal(false, v) if o == :and
+    end
+
+    v = +if?(negate(truthy_value)) {
+            true
+              }.
+            else! {
+                false
+              }
+
+    assert_equal(true, v)
+    
+    CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
+  end
+             
+  def test_python_truth_operators
+    CustomBoolean.truth_test = CustomBoolean::PYTHON_TRUTH
+
+    truthy_value = []
+    [:and, :or].each do |o|
+      v = +if?(truthy_value.send(o, true)) {
+        true
+      }.
+      else! {
+        false
+      }
+
+      assert_equal(true, v) if o == :or
+        assert_equal(false, v) if o == :and
+    end
+
+    v = +if?(negate(truthy_value)) {
+            true
+              }.
+            else! {
+                false
+              }
+
+    assert_equal(true, v)
+    
+    CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
+  end
+
+  def test_c_truth_operators
+    CustomBoolean.truth_test = CustomBoolean::C_TRUTH
+
+    truthy_value = 0
+    [:and, :or].each do |o|
+      v = +if?(truthy_value.send(o, true)) {
+        true
+      }.
+      else! {
+        false
+      }
+
+      assert_equal(true, v) if o == :or
+        assert_equal(false, v) if o == :and
+    end
+
+    v = +if?(negate(truthy_value)) {
+            true
+              }.
+            else! {
+                false
+              }
+
+    assert_equal(true, v)
+    
+    CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
+  end
+
+  def test_if_expression
+    CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
+
+    v = +if?(true) {
+      :hero
+    }.
+    else {
+      :ostrich
+    }
+
+    assert_equal(:hero, v)
+  end
 end
 
  
