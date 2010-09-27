@@ -7,11 +7,16 @@ require "#{direc}/custom_boolean/version"
 
 class CustomBoolean
   module Operators
+
+    # Equivalent of && for CustomBoolean truthiness
+    # (Better to use #and() alias, as fewer objects override this method)
     def &(other)
       CustomBoolean.truthy?(self) && CustomBoolean.truthy?(other)
     end
     alias_method :and, :"&"
     
+    # Equivalent of || for CustomBoolean truthiness
+    # (Better to use #or() alias, as fewer objects override this method)
     def |(other)
       CustomBoolean.truthy?(self) || CustomBoolean.truthy?(other)
     end
@@ -23,10 +28,18 @@ true.extend(CustomBoolean::Operators)
 false.extend(CustomBoolean::Operators)
 Object.send(:include, CustomBoolean::Operators)
 
+# Equivalent to ! for CustomBoolean truthiness
 def negate(expr)
   !CustomBoolean.truthy?(expr)
 end
 
+# CustomBoolean version of +if+ keyword.
+# Use as follows: if_(condition) { ... }
+# Other conditionals chain on to the end of if_() as follows:
+# if_(condition) { ... }.else { ... }
+# Can turn if_() statement into if-expression by prefixing with a `+`
+# e.g value = +if_(true) { :hello }
+# value #=> :hello
 def if_(condition, &block)
   truth = !!CustomBoolean.truthy?(condition)
   bvalue = block.call if truth
@@ -44,6 +57,21 @@ class CustomBoolean
   class << self
     attr_accessor :truth_test
 
+    # Indicates whether +condition+ is truthy according to
+    # CustomBoolean truthiness.
+    # CustomBoolean truthiness is determined by the proc referenced
+    # by CustomBoolean.truth_test.
+    # Built in Truth tests include:
+    # CustomBoolean::RUBY_TRUTH
+    # CustomBoolean::PYTHON_TRUTH
+    # CustomBoolean::PERL_TRUTH
+    # CustomBoolean::C_TRUTH
+    # CustomBoolean::STRICT_TRUTH
+    # Change truthiness by going, e.g:
+    # CustomBoolean.truth_test = CustomBoolean::PYTHON_TRUTH
+    # Can also use customized concept of truth, e.g horse truthiness -
+    # only :horse is true:
+    # CustomBoolean.truth_test = proc { |expr| expr == :horse }
     def truthy?(condition)
       self.truth_test.call(condition)
     end
@@ -67,10 +95,14 @@ class CustomBoolean
     self.value = block_value
   end
 
+  # Prefixing +if_+ with `+` turns if-statement into if-expression
+  # by invoking #value on CustomBoolean object.
   def +@
     self.value
   end
   
+  # CustomBoolean equivalent to Ruby's +elsif+ keyword.
+  # Must be chained after an if_() or another else_if()
   def else_if(condition, &block)
     raise InvalidConditional, "No further conditionals allowed after an else." if self.truth_value == :else_reached
 
@@ -90,6 +122,11 @@ class CustomBoolean
   alias elsif? else_if
   alias elsif! else_if
   
+  # CustomBoolean equivalent to Ruby's +else+ keyword.
+  # Must be chained after an if_() or else_if() keyword.
+  # No other conditionals may be chained after an +else+
+  # In event a conditional is chained after an +else+ an
+  # InvalidConditional exception will be raised.
   def else(&block)
     raise InvalidConditional, "No further conditionals allowed after an else." if self.truth_value == :else_reached
 

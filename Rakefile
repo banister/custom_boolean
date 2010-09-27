@@ -14,7 +14,10 @@ specification = Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.platform = Gem::Platform::RUBY
   s.homepage = "http://banisterfiend.wordpress.com"
-  s.has_rdoc = false
+  s.has_rdoc = true
+  s.extra_rdoc_files = ["README.markdown"]
+  s.rdoc_options << '--main' << 'README.markdown'
+  
   s.files =  ["Rakefile", "README.markdown", "CHANGELOG", 
               "lib/custom_boolean.rb", "lib/custom_boolean/version.rb"] +
     FileList["examples/*.rb", "test/*.rb"].to_a
