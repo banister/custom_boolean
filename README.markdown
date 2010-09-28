@@ -4,7 +4,7 @@ Custom Boolean
 Tired of the way Ruby sees truth? Want to experiment with the
 way other languages see it? No? Oh well, you may still want to have a play...
 
-CustomBoolean is a Cute hack to bring user-defined truthiness to
+CustomBoolean is a cute hack to bring user-defined truthiness to
 `if/else_if/else`-like expressions.
 
 * Implements various preset truth tests: Ruby, Python, Perl, C, Strict Boolean.
