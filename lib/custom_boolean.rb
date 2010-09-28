@@ -129,10 +129,11 @@ class CustomBoolean
     # @example using C truthiness
     #   CustomBoolean.truth_test = CustomBoolean::C_TRUTH
     #   CustomBoolean.truthy?(0) #=> false
-    # @example defining :horse truthiness :)
+    # @example defining and using *horse* truthiness :)
+    #   # only :horse is *true*
     #   CustomBoolean.truth_test = proc { |expr| expr == :horse }
     #   CustomBoolean.truthy?(:horse) #=> true
-    #   CustomBoolean.truthy?(true) #=> true
+    #   CustomBoolean.truthy?(true) #=> false
     def truthy?(condition)
       self.truth_test.call(condition)
     end
