@@ -72,7 +72,7 @@ Nested ifs work fine:
     else {
       puts 'not delighted'
     }
-
+    #=> "delighted and aroused"
 
 If expressions
 ----------------
