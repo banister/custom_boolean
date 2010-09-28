@@ -1,4 +1,5 @@
 require 'rake/gempackagetask'
+require 'rake/rdoctask'
 require './lib/custom_boolean/version'
 
 $dlext = Config::CONFIG['DLEXT']
@@ -28,3 +29,7 @@ Rake::GemPackageTask.new(specification) do |package|
   package.need_tar = false
 end
 
+Rake::RDocTask.new do |rd|
+  rd.main = "README.markdown"
+  rd.rdoc_files.include("README.markdown", "lib/**/*.rb")
+end
