@@ -57,6 +57,7 @@ Object.send(:include, CustomBoolean::Operators)
 def negate(expr)
   !CustomBoolean.truthy?(expr)
 end
+alias_method :neg, :negate
 
 # Equivalent of *if* for CustomBoolean truthiness.
 # Differs from regular *if* as it uses CustomBoolean truthiness
