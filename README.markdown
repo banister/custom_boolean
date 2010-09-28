@@ -57,11 +57,11 @@ Nested ifs work fine:
     x = :delighted
     y = :aroused
     
-    if?(x == :sad) {
+    if!(x == :sad) {
       puts 'evaluates to true' 
     }.
     else_if(x == :delighted) {
-      if?(y == :happy) {
+      if!(y == :happy) {
         puts 'delighted and happy'
       }.
       else_if(y == :aroused) {
@@ -132,12 +132,13 @@ Customizable truthiness
     }
     #=> 'evaluates to true'
 
+
 Boolean operators
 -----------------
 
-The ordinary `&&` and `||` and `!` operators do not implement
-CustomBoolean truthiness. Instead use `Object#and`, `Object#or`, and
-`Object#negate` (or `Object#&` and `Object#|` and `true.&` and `false.|`, etc)
+The ordinary && and || and ! operators do not implement
+CustomBoolean truthiness. Instead use Object#and, Object#or, and
+Object#negate (or Object#& and Object#| and true.& and false.|, etc)
 
     # use perl truthiness where "0" is false
     CustomBoolean.truth_test = CustomBoolean::PERL_TRUTH
