@@ -7,8 +7,10 @@ truthiness.
 * Implements various preset truth tests: Ruby, Python, Perl, C, Strict Boolean.
 * Provides ability to completely customize truthiness.
 * Provides common Boolean Operators (and, or, not) compatible with CustomBoolean
+* [Read the documentation](http://rdoc.info/github/banister/custom_boolean/master/frames)
+* [See the source code](http://github.com/banister/custom_boolean)
 
-Normal conditionals:
+Normal conditionalPPPNNNNPs:
 --------------------
     if!(0) { 
         puts 'true' 
