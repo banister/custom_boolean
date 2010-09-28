@@ -174,7 +174,7 @@ full machinery of if!/else_if/else. Just use the
     CustomBoolean.truthy?("0") #=> false
     
 Feedback
------------
+---------
 
 Problems or bugs, file an issue!
 
