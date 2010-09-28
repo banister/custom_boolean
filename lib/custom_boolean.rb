@@ -8,13 +8,13 @@ require "#{direc}/custom_boolean/version"
 class CustomBoolean
   module Operators
 
-    # Equivalent of **&&** for CustomBoolean truthiness.
-    # Differs from regular **&&** as it uses CustomBoolean truthiness
+    # Equivalent of *&&* for CustomBoolean truthiness.
+    # Differs from regular *&&* as it uses CustomBoolean truthiness
     # 
-    # **NOTE:** It is usually better to use the {#and} alias, as fewer objects override this
+    # *NOTE:* It is usually better to use the {#and} alias, as fewer objects override this
     # method)
     #
-    # @param The rhs of the boolean *and* operator
+    # @param other The rhs of the boolean *and* operator
     # @return [Boolean]
     # @example 
     #   obj1 & obj2
@@ -24,13 +24,13 @@ class CustomBoolean
     end
     alias_method :and, :"&"
     
-    # Equivalent of **||** for CustomBoolean truthiness.
-    # Differs from regular **||** as it uses CustomBoolean truthiness
+    # Equivalent of *||* for CustomBoolean truthiness.
+    # Differs from regular *||* as it uses CustomBoolean truthiness
     # 
-    # **NOTE:** It is usually better to use the {#or} alias, as fewer objects override this
+    # *NOTE:* It is usually better to use the {#or} alias, as fewer objects override this
     # method)
     #
-    # @param The rhs of the boolean *or* operator
+    # @param other The rhs of the boolean *or* operator
     # @return [Boolean]
     # @example 
     #   obj1 | obj2
@@ -47,10 +47,10 @@ true.extend(CustomBoolean::Operators)
 false.extend(CustomBoolean::Operators)
 Object.send(:include, CustomBoolean::Operators)
 
-# Equivalent of **!** for CustomBoolean truthiness.
-# Differs from regular **!** as it uses CustomBoolean truthiness
+# Equivalent of *!* for CustomBoolean truthiness.
+# Differs from regular *!* as it uses CustomBoolean truthiness
 # 
-# @param The expression to be negated
+# @param expr The expression to be negated
 # @return [Boolean]
 # @example 
 #   negate(obj)
@@ -58,20 +58,21 @@ def negate(expr)
   !CustomBoolean.truthy?(expr)
 end
 
-# Equivalent of **if** for CustomBoolean truthiness.
-# Differs from regular **if** as it uses CustomBoolean truthiness
+# Equivalent of *if* for CustomBoolean truthiness.
+# Differs from regular *if* as it uses CustomBoolean truthiness
 #
 # @example basic usage
-#   Use as follows: if_(condition) { ... }
-#   Other conditionals chain on to the end of if_() as follows:
+#   # Use as follows:
+#   if_(condition) { ... }
 #   
-#   if_(condition) { ... }.else { ... }
+#   # Other conditionals chain on to the end of if_() as follows:
+#   if_(condition) { ... }
+#   .else { ... }
 # @example if-expression form
-#   Can turn if_() statement into if-expression by prefixing with a `+`
-#   
+#   # Can turn if_() statement into if-expression by prefixing with a `+`
 #   value = +if_(true) { :hello }
 #   value #=> :hello
-# @param an expression to evaluate
+# @param condition an expression to evaluate
 # @return [CustomBoolean]
 # @yield the block will be executed if the condition evalues to true
 def if_(condition, &block)
@@ -91,7 +92,7 @@ class CustomBoolean
   attr_accessor :truth_value
 
   # @return [Object] The value of the block that was executed in the
-  # if/else_if/else 
+  #   if/else_if/else 
   attr_accessor :value
 
   class << self
@@ -105,32 +106,31 @@ class CustomBoolean
     # by CustomBoolean.truth_test.
     # 
     # Built in Truth tests include:
-    # CustomBoolean::RUBY_TRUTH
     # 
-    # CustomBoolean::PYTHON_TRUTH
+    # *CustomBoolean::RUBY_TRUTH*
     # 
-    # CustomBoolean::PERL_TRUTH
+    # *CustomBoolean::PYTHON_TRUTH*
     # 
-    # CustomBoolean::C_TRUTH
+    # *CustomBoolean::PERL_TRUTH*
     # 
-    # CustomBoolean::STRICT_TRUTH
+    # *CustomBoolean::C_TRUTH*
+    # 
+    # *CustomBoolean::STRICT_TRUTH*
     # 
     # @example changing truthiness to a preset 
     #   CustomBoolean.truth_test = CustomBoolean::PYTHON_TRUTH
     # @example user-defined truthiness  
     #   # only :horse is true:
     #   CustomBoolean.truth_test = proc { |expr| expr == :horse }
-    # @param an expression to evaluate
+    # @param condition an expression to evaluate
     # @return [Boolean]
     def truthy?(condition)
       self.truth_test.call(condition)
     end
   end
 
-  # exception raised when conditionals invoked after an else
   InvalidConditional = Class.new(StandardError)
   
-  # various ideas of truth
   RUBY_TRUTH = proc { |expr| expr }
   PYTHON_TRUTH = proc { |expr| expr && !(expr.respond_to?(:empty?) && expr.empty?) && expr != 0 }
   STRICT_TRUTH = proc { |expr| raise "Expression must be strictly true or false." if expr != true && expr != false; expr }
@@ -140,18 +140,20 @@ class CustomBoolean
   # default truth test is Ruby's
   self.truth_test = RUBY_TRUTH
   
+  # @param [Boolean, Symbol] truth_value
+  # @param block_value 
   def initialize(truth_value, block_value)
     self.truth_value = truth_value
     self.value = block_value
   end
 
-  # Prefixing +if_+ with `+` turns if-statement into if-expression
+  # Prefixing +if_+ with *+* turns if-statement into if-expression
   # by invoking #value on CustomBoolean object.
   # @return [Object] extracts the value of the if, transforming it
-  # into an if-expression
+  #   into an if-expression
   # @example single if-expression example
   #   +if(true) { :hello } #=> :hello
-  #   +if(fale) { :hello } #=> nil
+  #   +if(false) { :hello } #=> nil
   # @example if-else-expression example
   #   +if(false) {
   #     :hello
@@ -176,11 +178,10 @@ class CustomBoolean
   #   else_if(cond2) {
   #     :goodbye
   #   }
-  # @param [Object] an expression to evaluate
+  # @param condition an expression to evaluate
   # @return [CustomBoolean]
   # @yield the block will be executed if the condition evalues to true
-  # (so long as no prior *else_if* or *if* has evaluated to true further
-  # up the chain)
+  #   (so long as no prior *else_if* or *if* has evaluated to true further up the chain)
   def else_if(condition, &block)
     raise InvalidConditional, "No further conditionals allowed after an else." if self.truth_value == :else_reached
 
@@ -218,8 +219,7 @@ class CustomBoolean
   #   }
   # @return [CustomBoolean]
   # @yield the block will be executed if the condition evalues to true
-  # (so long as no prior *else_if* or *if* has evaluated to true further
-  # up the chain)  
+  #   (so long as no prior *else_if* or *if* has evaluated to true further up the chain)
   def else(&block)
     raise InvalidConditional, "No further conditionals allowed after an else." if self.truth_value == :else_reached
 
