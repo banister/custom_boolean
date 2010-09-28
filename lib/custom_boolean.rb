@@ -152,10 +152,10 @@ class CustomBoolean
   # @return [Object] extracts the value of the if, transforming it
   #   into an if-expression
   # @example single if-expression example
-  #   +if(true) { :hello } #=> :hello
-  #   +if(false) { :hello } #=> nil
+  #   +if_(true) { :hello } #=> :hello
+  #   +if_(false) { :hello } #=> nil
   # @example if-else-expression example
-  #   +if(false) {
+  #   +if_(false) {
   #     :hello
   #   }.
   #   else {
