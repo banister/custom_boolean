@@ -15,7 +15,7 @@ specification = Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.platform = Gem::Platform::RUBY
   s.homepage = "http://banisterfiend.wordpress.com"
-  s.has_rdoc = true
+  s.has_rdoc = 'yard'
   s.extra_rdoc_files = ["README.markdown"]
   s.rdoc_options << '--main' << 'README.markdown'
   
