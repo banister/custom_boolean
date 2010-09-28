@@ -10,7 +10,7 @@ CustomBoolean is a little hack to bring user-defined truthiness to
 * Implements various preset truth tests: Ruby, Python, Perl, C, Strict Boolean.
 * Provides ability to completely customize truthiness.
 * Provides common Boolean Operators (and, or, not) compatible with CustomBoolean
-* Read the [documentation](http://rdoc.info/github/banister/custom_boolean/master/frames)
+* Read the [documentation](http://rdoc.info/github/banister/custom_boolean/master/file/README.markdown)
 * See the [source code](http://github.com/banister/custom_boolean)
 * Install the [gem](https://rubygems.org/gems/custom_boolean) `gem install custom_boolean`
 
