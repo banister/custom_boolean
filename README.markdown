@@ -16,7 +16,7 @@ CustomBoolean is a little hack to bring user-defined truthiness to
 
 Normal conditionals:
 --------------------
-    if!(0) { 
+    if_(0) { 
         puts 'true' 
     }.
     else { 
@@ -31,7 +31,7 @@ A Pythonic truthiness:
     # redefine truthiness with the `truth_test` method
     CustomBoolean.truth_test = CustomBoolean::PYTHON_TRUTH
 
-    if!(0) { 
+    if_(0) { 
         puts 'true' 
     }.
     else { 
@@ -44,7 +44,7 @@ A full example:
 ------------------------
 
     x = 5
-    if!(x == 4) {
+    if_(x == 4) {
         puts 'x is 4' 
     }.
     else_if(x == 5) {
@@ -63,11 +63,11 @@ Nested ifs work fine:
     x = :delighted
     y = :aroused
     
-    if!(x == :sad) {
+    if_(x == :sad) {
       puts 'evaluates to true' 
     }.
     else_if(x == :delighted) {
-      if!(y == :happy) {
+      if_(y == :happy) {
         puts 'delighted and happy'
       }.
       else_if(y == :aroused) {
@@ -83,8 +83,8 @@ Nested ifs work fine:
 If expressions
 ----------------
 
-    # prefixing `if!` with `+` invokes if-expression behaviour
-    +if!(false) {
+    # prefixing `if_` with `+` invokes if-expression behaviour
+    +if_(false) {
       :hello
     }.
     else {
@@ -105,7 +105,7 @@ Use as follows:
 
     CustomBoolean.truth_test = CustomBoolean::C_TRUTH
 
-    +if!(0) {
+    +if_(0) {
       true
     }.
     else {
@@ -122,7 +122,7 @@ Customizable truthiness
     # only :horse is true
     CustomBoolean.truth_test = proc { |b| b == :horse }
     
-    if!(true) {
+    if_(true) {
       puts 'evaluates to true' 
     }.
     else {
@@ -130,7 +130,7 @@ Customizable truthiness
     }
     # => 'reached else
     
-    if!(:horse) {
+    if_(:horse) {
       puts 'evaluates to true' 
     }.
     else {
@@ -149,7 +149,7 @@ Object#negate (or Object#& and Object#| and true.& and false.|, etc)
     # use perl truthiness where "0" is false
     CustomBoolean.truth_test = CustomBoolean::PERL_TRUTH
 
-    +if!(true & "0") {
+    +if_(true & "0") {
       true
     }.
     else {
@@ -158,16 +158,16 @@ Object#negate (or Object#& and Object#| and true.& and false.|, etc)
     #=> false
 
     # Or use Object#and
-    +if!(true.and "0") {...}
+    +if_(true.and "0") {...}
 
     # Use negate (rather than not)
-    +if!(negate("0")) { true } ##=> true   
+    +if_(negate("0")) { true } ##=> true   
     
 Testing truthiness of expressions
 ----------------------------------
 
 You can test the truthiness of an expression without using the
-full machinery of if!/else_if/else. Just use the
+full machinery of if_/else_if/else. Just use the
 `CustomBoolean.truthy?()` function:
 
     CustomBoolean.truth_test = CustomBoolean::PERL_TRUTH
