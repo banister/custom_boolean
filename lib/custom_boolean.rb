@@ -120,11 +120,11 @@ class CustomBoolean
     # @return [Proc] The proc that defines the truth test
     attr_accessor :truth_test
 
-    # Tests whether *condition* is truthy according to
+    # Tests whether *expression* is truthy according to
     # CustomBoolean truthiness.
     # CustomBoolean truthiness is determined by the proc referenced
     # by CustomBoolean.truth_test.
-    # @param condition an expression to evaluate
+    # @param expr an expression to evaluate
     # @return [Boolean]
     # @example using C truthiness
     #   CustomBoolean.truth_test = CustomBoolean::C_TRUTH
@@ -134,8 +134,8 @@ class CustomBoolean
     #   CustomBoolean.truth_test = proc { |expr| expr == :horse }
     #   CustomBoolean.truthy?(:horse) #=> true
     #   CustomBoolean.truthy?(true) #=> false
-    def truthy?(condition)
-      self.truth_test.call(condition)
+    def truthy?(expr)
+      self.truth_test.call(expr)
     end
   end
 
