@@ -298,6 +298,8 @@ class CustomBooleanTest < Test::Unit::TestCase
   end
 
   def test_ruby_truth
+    CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
+
     [nil, false].each do |v|
       val = if?(v) {
         true
