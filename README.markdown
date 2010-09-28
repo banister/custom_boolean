@@ -122,6 +122,7 @@ Customizable truthiness
     else {
       puts 'reached else'
     }
+    # => 'reached else
     
     if!(:horse) {
       puts 'evaluates to true' 
@@ -129,7 +130,7 @@ Customizable truthiness
     else {
       puts 'reached else'
     }
-
+    #=> 'evaluates to true'
 
 Boolean operators
 -----------------
