@@ -295,6 +295,7 @@ class CustomBooleanTest < Test::Unit::TestCase
       }
       assert_equal(true, val.value)
     end
+    CustomBoolean.truth_test = CustomBoolean::RUBY_TRUTH
   end
 
   def test_ruby_truth
