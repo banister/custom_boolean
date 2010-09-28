@@ -158,7 +158,7 @@ Object#negate (or Object#& and Object#| and true.& and false.|, etc)
     #=> false
 
     # Or use Object#and
-    +if_(true.and "0") {...}
+    +if_(true.and "0") { true }
 
     # Use negate (rather than not)
     +if_(negate("0")) { true } ##=> true   
