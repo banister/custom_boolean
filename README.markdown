@@ -9,6 +9,7 @@ truthiness.
 * Provides common Boolean Operators (and, or, not) compatible with CustomBoolean
 * Read the [documentation](http://rdoc.info/github/banister/custom_boolean/master/frames)
 * See the [source code](http://github.com/banister/custom_boolean)
+* Install the gem `gem install custom_boolean`
 
 Normal conditionals:
 --------------------
