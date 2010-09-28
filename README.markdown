@@ -1,16 +1,16 @@
 Custom Boolean
 ==============
 
-Cute hack to have if/else_if/else conditions with user-defined
+Cute hack to have pseudo-if/else_if/else conditions with user-defined
 truthiness.
 
 * Implements various preset truth tests: Ruby, Python, Perl, C, Strict Boolean.
 * Provides ability to completely customize truthiness.
 * Provides common Boolean Operators (and, or, not) compatible with CustomBoolean
-* [Read the documentation](http://rdoc.info/github/banister/custom_boolean/master/frames)
-* [See the source code](http://github.com/banister/custom_boolean)
+* Read the [documentation](http://rdoc.info/github/banister/custom_boolean/master/frames)
+* See the [source code](http://github.com/banister/custom_boolean)
 
-Normal conditionalPPPNNNNPs:
+Normal conditionals:
 --------------------
     if!(0) { 
         puts 'true' 
