@@ -97,13 +97,7 @@ class CustomBoolean
 
   class << self
 
-    # @return [Proc] The proc that defines the truth test
-    attr_accessor :truth_test
-
-    # Tests whether *condition* is truthy according to
-    # CustomBoolean truthiness.
-    # CustomBoolean truthiness is determined by the proc referenced
-    # by CustomBoolean.truth_test.
+    # Determines the truth test to apply (for CustomBoolean truthiness)
     # 
     # Built in Truth tests include:
     # 
@@ -119,11 +113,26 @@ class CustomBoolean
     # 
     # @example changing truthiness to a preset 
     #   CustomBoolean.truth_test = CustomBoolean::PYTHON_TRUTH
-    # @example user-defined truthiness  
+    # @example user-defined truthiness 
     #   # only :horse is true:
     #   CustomBoolean.truth_test = proc { |expr| expr == :horse }
+    # @param [Proc] truth_test_proc The Proc that defines the truth test
+    # @return [Proc] The proc that defines the truth test
+    attr_accessor :truth_test
+
+    # Tests whether *condition* is truthy according to
+    # CustomBoolean truthiness.
+    # CustomBoolean truthiness is determined by the proc referenced
+    # by CustomBoolean.truth_test.
     # @param condition an expression to evaluate
     # @return [Boolean]
+    # @example using C truthiness
+    #   CustomBoolean.truth_test = CustomBoolean::C_TRUTH
+    #   CustomBoolean.truthy?(0) #=> false
+    # @example defining :horse truthiness :)
+    #   CustomBoolean.truth_test = proc { |expr| expr == :horse }
+    #   CustomBoolean.truthy?(:horse) #=> true
+    #   CustomBoolean.truthy?(true) #=> true
     def truthy?(condition)
       self.truth_test.call(condition)
     end
